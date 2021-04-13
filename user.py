@@ -70,7 +70,7 @@ def authorize_user(username, input_pass):
         else:
             return False
     except:
-        raise IndexError('No database entry found')
+        print('No database entry found')
 
 def login():
     username = input("Username : ")
@@ -80,5 +80,5 @@ def login():
         print('ERROR', error)
     if authorize_user(username,password):
         return username
-    else
+    else:
         return None
