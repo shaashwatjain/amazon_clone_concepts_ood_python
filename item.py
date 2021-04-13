@@ -2,18 +2,18 @@ import json
 
 # To implement : 
 #       login
-#       type of account
 #       UI
 #       Cart
 #
 
 class Item:
 
-    def __init__(self, item_name, item_des, item_price, item_qty, item_img):
+    def __init__(self, item_name, item_des, item_price, item_qty, item_img, item_seller):
         str_type = type("")
-        if(type(item_name) == str_type and type(item_des) == str_type):
+        if(type(item_name) == str_type and type(item_des) == str_type and type(item_seller) == str_type):
             self.name = item_name
             self.description = item_des
+            self.seller = item_seller
         else:
             raise ValueError('Wrong Name or Description')
         if(item_qty >= 0):
@@ -44,7 +44,15 @@ class Item:
             raise ValueError('Price of item incorrect')
 
     def display_item(self):
-        print()
+        print("#"*10)
+        print("Item name : " + self.name)
+        print("Item description : " + self.description)
+        print("Item images can be viewed on the links : ")
+        for image in self.images:
+            print(image)
+        print("Item price (in INR): " + str(self.price))
+        print("Available quantity : " + str(self.qty))
+        print("#"*10)
 
 items = []
 
@@ -86,6 +94,12 @@ def import_items():
             i = 0
             item_data = []
 
+def display_all():
+    i = 0
+    for item in items:
+        print("Item at index : " + str(i))
+        item.display_item()
+        i += 1
 
-import_items()
-print(items)
+def display_item_at_index(index):
+    items[index].display_item()

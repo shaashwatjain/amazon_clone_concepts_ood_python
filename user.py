@@ -62,4 +62,23 @@ def import_database():
             i = 1
         
 
+def authorize_user(username, input_pass):
+    try:
+        user_pass = details[username].password
+        if(user_pass == input_pass):
+            return True
+        else:
+            return False
+    except:
+        raise IndexError('No database entry found')
 
+def login():
+    username = input("Username : ")
+    try:
+        password = getpass.getpass()
+    except Exception as error:
+        print('ERROR', error)
+    if authorize_user(username,password):
+        return username
+    else
+        return None
