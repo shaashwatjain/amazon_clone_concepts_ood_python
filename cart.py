@@ -3,6 +3,8 @@ from item import *
 
 carts = {}
 
+# make functions private to avoid unauthorized access
+
 class Cart:
     def __init__(self,user, items = None):
         self.user = user
@@ -51,6 +53,13 @@ def exists_cart(user):
     else:
         return False
 
+def buy(user):
+    cart = return_cart(user)
+    if cart.check_cart():
+        cart.buy_cart()
+        return True
+    return False
+
 def new_cart(user):
     cart = Cart(user)
     carts[user] = cart
@@ -60,6 +69,16 @@ def return_cart(user):
         return carts[user]
     else:
         return None
+
+def display_cart(user):
+    cart = return_cart(user)
+    cart.display_cart()
+
+def is_empty_cart(user):
+    if return_cart(user).items:
+        return False
+    else:
+        return True
 
 def export_carts():
     carts_database = open("carts_database.txt","w")

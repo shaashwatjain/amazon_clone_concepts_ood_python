@@ -118,3 +118,15 @@ def search_item(keyword):
             found += 1
         i += 1
     print("Found " + str(found) + " products to display")
+
+def products_by_seller(user):
+    i = 0
+    found = False
+    for item in items:
+        if item.seller == user:
+            print("Item id : " + str(i))
+            item.display_item()
+            Found = True
+        i += 1
+    if found == False:
+        print("No items sold by user!")

@@ -28,9 +28,10 @@ def switch_main():
         print("3. Show all items")
         print("4. Search for item")
         print("5. Add to cart by item id")
-        print("6. See cart")
-        print("7. Manage items (Seller)")
-        print("8. Log Out")
+        print("6. Manage cart")
+        print("7. Buy Cart")
+        print("8. Manage items (Seller)")
+        print("9. Log Out")
         choice = int(input("Enter your choice (numeral) : "))
         inner_choice = None
         if choice == 1:
@@ -75,18 +76,25 @@ def switch_main():
             else:
                 print("Please login first!")
         elif choice == 6:
+            # delete items from cart
+            # Look for merging as : manage cart
+            # Implement buy now as well 
             if current_user:
-                cart = return_cart(current_user)
-                cart.display_cart()
+                display_cart(current_user)
             else:
                 print("Please login first!")
         elif choice == 7:
+            if not is_empty_cart(current_user):
+                buy(user)
+            else:
+                print("Cart is empty!")
+        elif choice == 8:
             # manage items
             # only by seller
             # check if other functionality needed
             # require login
             switch_seller(current_user)
-        elif choice == 8:
+        elif choice == 9:
             current_user = None
         else:
             print("Invalid option!")
@@ -99,8 +107,10 @@ def switch_seller(current_user):
         print("0. Back to main menu")
         inner_choice = int(input("Enter your choice:"))
         if inner_choice == 1:
-            # show products being sold by seller
-            pass
+            try:
+                products_by_seller(current_user)
+            except:
+                print("Internal Error!")
         elif inner_choice == 2:
             try: 
                 new_item(str(current_user))
