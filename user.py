@@ -22,7 +22,30 @@ class User:
             self.phone = phone
         if email and email != "":
             self.email = email
+    
+    def display_details(self):
+        print("Username : " + self.username)
+        if self.name and self.name != "":
+            print("Name : " + self.name)
+        if self.address and self.address != "":
+            print("Address : " + self.address)
+        if self.phone and self.phone != "":
+            print("Phone Number : " + self.phone)
+        if self.email and self.email != "":
+            print("Email Address : " + self.email)
 
+def change_details(user,name,address,phone,email):
+    details[user].change_details(name,address,phone,email)
+
+def show_details(user):
+    details[user].display_details()
+
+def check_address(user):
+    tmp_user = details[user]
+    if tmp_user.address and tmp_user.address != "":
+        return True
+    print("Enter address in Manage User first!")
+    return False
 
 def new_user():
     username = input("Enter your username : ")
@@ -38,11 +61,12 @@ def new_user():
 
 def export_database():
     user_database = open("user_database.txt","w")
-    for user in details.keys():
-        user_database.write(user + "\n")
-        temp_user = details[user]
-        user_details = [temp_user.password, temp_user.name, temp_user.address,temp_user.phone, temp_user.email]
-        user_database.write(json.dumps(user_details) + "\n")
+    if details:
+        for user in details.keys():
+            user_database.write(user + "\n")
+            temp_user = details[user]
+            user_details = [temp_user.password, temp_user.name, temp_user.address,temp_user.phone, temp_user.email]
+            user_database.write(json.dumps(user_details) + "\n")
         
 
 def import_database():

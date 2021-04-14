@@ -11,11 +11,18 @@ class Cart:
         self.items = items
     
     def add_to_cart(self,item, qty=1):
+
         if item.qty >= qty:
             if self.items:
-                self.items.append((item,qty))
+                for tmp_item in self.items:
+                    if tmp_item[0] == item:
+                        tmp_qty = tmp_item[1] + qty
+                        if item.qty >= tmp_qty:
+                            tmp_item[1] = tmp_qty
+                            return
+                self.items.append([item,qty])
             else:
-                self.items = [(item,qty)]
+                self.items = [[item,qty]]
         else:
             print("Quantity not available. Try reducing quantity !")
 
@@ -30,9 +37,17 @@ class Cart:
                 return False
         return True
 
-    def modify_cart(self):
-        #modify quantity of item or delete item here
-        pass
+    def update_cart_item(self, cart_id, qty):
+        try:
+            self.items[cart_id][1] = qty
+        except:
+            print("Could not update! Cart ID doesn't exist")
+
+    def delete_cart_item(self, cart_id):
+        try:
+            self.items[cart_id][1] = 0
+        except:
+            print("Could not update! Cart ID doesn't exist")
     
     def buy_cart(self):
         for item in self.items:
@@ -40,12 +55,17 @@ class Cart:
         self.items = None
     
     def display_cart(self):
+        i = 0 
         if self.items:
             for item in self.items:
-                item[0].display_item()
-                print("Quantity added in cart : " + str(item[1]))
+                if item[1] != 0:
+                    print("Cart index : " + str(i))
+                    item[0].display_item()
+                    print("Quantity added in cart : " + str(item[1]))
+                i += 1
         else:
             print("---Empty cart---")
+        print(str(i) + " items in cart!")
 
 def exists_cart(user):
     if user in carts.keys():
@@ -54,37 +74,42 @@ def exists_cart(user):
         return False
 
 def buy(user):
-    cart = return_cart(user)
-    if cart.check_cart():
-        cart.buy_cart()
-        return True
+    if exists_cart(user) and check_address(user):
+        cart = carts[user]
+        if cart.check_cart():
+            cart.buy_cart()
+            return True
     return False
 
 def new_cart(user):
     cart = Cart(user)
     carts[user] = cart
 
-def return_cart(user):
-    if exists_cart(user):
-        return carts[user]
-    else:
-        return None
-
 def display_cart(user):
-    cart = return_cart(user)
-    cart.display_cart()
+    if exists_cart(user):
+        cart = carts[user]
+        cart.display_cart()
 
 def is_empty_cart(user):
-    if return_cart(user).items:
-        return False
-    else:
-        return True
+    if exists_cart(user):
+        cart = carts[user]
+        if cart.items:
+            return False
+        else:
+            return True
 
 def export_carts():
     carts_database = open("carts_database.txt","w")
-    for cart in carts:
-        carts_database.write(cart + "\n")
-        carts_database.write(json.dumps(carts[cart].items) + "\n")
+    if carts:
+        for cart in carts:
+            temp_items = carts[cart].items
+            if temp_items:
+                for item in temp_items:
+                    if item[1] == 0:
+                        temp_items.remove(item)
+                carts[cart].items = temp_items
+                carts_database.write(cart + "\n")
+                carts_database.write(json.dumps(carts[cart].items) + "\n")
 
 def import_carts():
     carts_database = open("carts_database.txt","r")
@@ -98,3 +123,9 @@ def import_carts():
         else:
             user = cart
             i = 1
+
+def update_cart_item(user,cart_id,qty):
+    carts[user].update_cart_item(cart_id,qty)
+
+def delete_cart_item(user, cart_id):
+    carts[user].delete_cart_item(cart_id)

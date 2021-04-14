@@ -30,30 +30,31 @@ class Item:
             print('No images for product provided')
 
     def change_quantity(self,change):
-        final_qty = self.qty - change
+        final_qty = self.qty + change
         if(final_qty >= 0):
             self.qty = final_qty
         else:
-            raise ValueError('Quantity of item incorrect')
+            print('Quantity of item incorrect')
 
     def change_price(self,change):
         final_price = self.price - change
         if(final_price >= 0):
             self.price = final_price
         else:
-            raise ValueError('Price of item incorrect')
+            print('Price of item incorrect')
 
     def display_item(self):
-        print("#"*10)
-        print("Item name : " + self.name)
-        print("Item description : " + self.description)
-        print("Item images can be viewed on the links : ")
-        for image in self.images:
-            print(image)
-        print("Item price (in INR): " + str(self.price))
-        print("Available quantity : " + str(self.qty))
-        print("Seller : " + self.seller)
-        print("#"*10)
+        if self.qty != 0:
+            print("#"*10)
+            print("Item name : " + self.name)
+            print("Item description : " + self.description)
+            print("Item images can be viewed on the links : ")
+            for image in self.images:
+                print(image)
+            print("Item price (in INR): " + str(self.price))
+            print("Available quantity : " + str(self.qty))
+            print("Seller : " + self.seller)
+            print("#"*10)
 
 items = []
 
@@ -70,17 +71,18 @@ def new_item(user):
         no_images -= 1
     item = Item(name,description,price,quantity,images,user)
     items.append(item)
-    return item
 
 def export_items():
     data = open('database.txt','w')
-    for item in items:
-        data.write(item.name + "\n")
-        data.write(item.description + "\n")
-        data.write(str(item.price) + "\n")
-        data.write(str(item.qty) + "\n")
-        data.write(json.dumps(item.images) + "\n")
-        data.write(item.seller + "\n")
+    if items:
+        for item in items:
+            if item.qty != 0:
+                data.write(item.name + "\n")
+                data.write(item.description + "\n")
+                data.write(str(item.price) + "\n")
+                data.write(str(item.qty) + "\n")
+                data.write(json.dumps(item.images) + "\n")
+                data.write(item.seller + "\n")
 
 def import_items():
     data = open('database.txt','r').readlines()
@@ -130,3 +132,20 @@ def products_by_seller(user):
         i += 1
     if found == False:
         print("No items sold by user!")
+
+def exists_prod(prod_id):
+    if prod_id >= len(items):
+        return False
+    return True
+
+def get_quantity(prod_id):
+    return items[prod_id].qty
+
+def change_quantity(prod_id, change):
+    items[prod_id].change_quantity(change)
+
+def delete_item(prod_id):
+    items[prod_id].qty = 0
+
+def return_item(prod_id):
+    return items[prod_id]
