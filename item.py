@@ -1,11 +1,5 @@
 import json
 
-# To implement : 
-#       login
-#       UI
-#       Cart
-#
-
 class Item:
 
     def __init__(self, item_name, item_des, item_price, item_qty, item_img, item_seller):

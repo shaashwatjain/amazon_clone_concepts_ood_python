@@ -34,18 +34,21 @@ def switch_main(current_user):
         choice = int(input("Enter your choice (numeral) : "))
         inner_choice = None
         if choice == 1:
-            user = login()
-            while not user:
-                print("Invalid login!")
-                inner_choice = int(input("Login again(1) or exit to main menu(0) : "))
-                if inner_choice:
-                    user = login()
-                else:
-                    break
-            if not exists_cart(user):
-                new_cart(user)
-            print("Login successful!")
-            current_user = user
+            if not current_user:
+                user = login()
+                while not user:
+                    print("Invalid login!")
+                    inner_choice = int(input("Login again(1) or exit to main menu(0) : "))
+                    if inner_choice:
+                        user = login()
+                    else:
+                        break
+                if not exists_cart(user):
+                    new_cart(user)
+                print("Login successful!")
+                current_user = user
+            else:
+                print("Please log out first!")
         elif choice == 2:
             try:
                 new_user()
