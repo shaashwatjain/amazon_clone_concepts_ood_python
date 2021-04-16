@@ -1,6 +1,7 @@
 from user import *
 from item import *
 from cart import *
+from test import *
 from os import system
 
 def initialize():
@@ -31,6 +32,7 @@ def switch_main(current_user):
         print("7. Manage user")
         print("8. Manage items (Seller)")
         print("9. Log Out")
+        print("10. Run tests")
         print("0. Exit")
         choice = int(input("Enter your choice (numeral) : "))
         inner_choice = None
@@ -120,12 +122,45 @@ def switch_main(current_user):
         elif choice == 9:
             current_user = None
             print("Logged out!")
+        elif choice == 10:
+            startTest(done)
+
+            passedTestCases = 0
+            for test in results:
+                if test["status"]: passedTestCases += 1
+                
+            print(str(passedTestCases) + " test cases passed out of " + str(len(results)) + ".")
+
+            if (passedTestCases != len(results)):
+                print("Report of failed test cases:")
+                print()
+                print("-"*25)
+                print()
+
+                print("Test status" + " "*10 + "Test")
+                print()
+
+                for test in results:
+                    if not test["status"]:
+                        print("Failed" + " "*15 + test["message"])
+                
+                print()
+                print("-"*25)
+                print()
         elif choice == 0:
             print("Exiting!")
             break
         else:
             print("Invalid option! Exiting")
             break
+
+results = []
+
+def done(passed, message):
+    results.append({
+        "status": passed,
+        "message": message
+    })
 
 def switch_seller(current_user):
     while(1):
