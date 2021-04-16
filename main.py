@@ -129,10 +129,12 @@ def switch_main(current_user):
             for test in results:
                 if test["status"]: passedTestCases += 1
                 
-            print(str(passedTestCases) + " test cases passed out of " + str(len(results)) + ".")
+            print()
+            print("\x1b[32m" + str(passedTestCases) + " test cases passed out of " + str(len(results)) + "\x1b[0m.")
+            print()
 
             if (passedTestCases != len(results)):
-                print("Report of failed test cases:")
+                print("\x1b[1m\x1b[35mReport of failed test cases:\x1b[0m")
                 print()
                 print("-"*25)
                 print()
@@ -142,7 +144,7 @@ def switch_main(current_user):
 
                 for test in results:
                     if not test["status"]:
-                        print("Failed" + " "*15 + test["message"])
+                        print("\x1b[31mFailed\x1b[0m" + " \x1b[34m"*15 + test["message"] + "\x1b[0m")
                 
                 print()
                 print("-"*25)
