@@ -76,7 +76,6 @@ def import_database():
     for user in user_database:
         user = user.rstrip()
         if i == 1:
-            print(user)
             user_details = json.loads(user)
             details[user_name] = User(user_name,user_details[0],user_details[1],user_details[2],user_details[3],user_details[4])
             user_name = None

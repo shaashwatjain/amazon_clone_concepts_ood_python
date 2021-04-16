@@ -119,10 +119,10 @@ def products_by_seller(user):
     i = 0
     found = False
     for item in items:
-        if item.seller == user:
+        if item.seller == user and item.qty != 0:
             print("Item id : " + str(i))
             item.display_item()
-            Found = True
+            found = True
         i += 1
     if found == False:
         print("No items sold by user!")

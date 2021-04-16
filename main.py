@@ -1,6 +1,7 @@
 from user import *
 from item import *
 from cart import *
+from os import system
 
 def initialize():
     # Import for accounts
@@ -21,8 +22,8 @@ def initialize():
 def switch_main(current_user):
     while(1):
         print("Menu")
-        print("1. Login")
-        print("2. Register")
+        if (not current_user): print("1. Login")
+        if (not current_user): print("2. Register")
         print("3. Show all items")
         print("4. Search for item")
         print("5. Add to cart by item id")
@@ -132,7 +133,7 @@ def switch_seller(current_user):
         print("2. Add new product")
         print("3. Manage product")
         print("0. Back to main menu")
-        inner_choice = int(input("Enter your choice:"))
+        inner_choice = int(input("Enter your choice : "))
         if inner_choice == 1:
             try:
                 products_by_seller(current_user)
@@ -173,7 +174,7 @@ def switch_cart(user):
     print("1. Update item in cart by id")
     print("2. Delete item in cart by id")
     print("3. Buy Cart")
-    in_choice = int(input("Enter choice:"))
+    in_choice = int(input("Enter choice : "))
     if in_choice == 1:
         prod_id = int(input("Enter cart id to update : "))
         update_qty = int(input("Enter update quantity : "))
