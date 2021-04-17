@@ -207,7 +207,8 @@ def switch_manage_product(user):
     if exists_prod(prod_id):
         print("#"*10)
         print("1. Update quantity")
-        print("2. Delete item")
+        print("2. Update price")
+        print("3. Delete item")
         in_choice = int(input("Enter choice : "))
         if in_choice == 1:
             old_quantity = get_quantity(prod_id)
@@ -216,6 +217,12 @@ def switch_manage_product(user):
             update_quantity = new_quantity - old_quantity
             change_quantity(prod_id, update_quantity)
         elif in_choice == 2:
+            old_price = get_price(prod_id)
+            print("Current Price : " + str(old_price))
+            new_price = int(input("Enter new price : "))
+            update_price = new_price - old_price
+            change_price(prod_id, update_price)
+        elif in_choice == 3:
             delete_item(prod_id)
     else:
         print("Product id does not exist")

@@ -140,8 +140,14 @@ def exists_prod(prod_id):
 def get_quantity(prod_id):
     return items[prod_id].qty
 
+def get_price(prod_id):
+    return items[prod_id].price
+
 def change_quantity(prod_id, change):
     items[prod_id].change_quantity(change)
+
+def change_price(prod_id, change):
+    items[prod_id].change_price(change)
 
 def delete_item(prod_id):
     items[prod_id].qty = 0
