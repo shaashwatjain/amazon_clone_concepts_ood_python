@@ -112,31 +112,31 @@ def is_empty_cart(user):
         else:
             return True
 
-def export_carts():
-    carts_database = open("carts_database.txt","w")
-    if carts:
-        for cart in carts:
-            temp_items = carts[cart].items
-            if temp_items:
-                for item in temp_items:
-                    if item[1] == 0:
-                        temp_items.remove(item)
-                carts[cart].items = temp_items
-                carts_database.write(cart + "\n")
-                carts_database.write(json.dumps(carts[cart].items) + "\n")
+# def export_carts():
+#     carts_database = open("carts_database.txt","w")
+#     if carts:
+#         for cart in carts:
+#             temp_items = carts[cart].items
+#             if temp_items:
+#                 for item in temp_items:
+#                     if item[1] == 0:
+#                         temp_items.remove(item)
+#                 carts[cart].items = temp_items
+#                 carts_database.write(cart + "\n")
+#                 carts_database.write(json.dumps(carts[cart].items) + "\n")
 
-def import_carts():
-    carts_database = open("carts_database.txt","r")
-    carts_data = carts_database.readlines()
-    i = 0
-    user = None
-    for cart in carts_data:
-        cart = cart.rstrip()
-        if i == 1:
-            carts[user] = Cart(user,json.loads(cart))
-        else:
-            user = cart
-            i = 1
+# def import_carts():
+#     carts_database = open("carts_database.txt","r")
+#     carts_data = carts_database.readlines()
+#     i = 0
+#     user = None
+#     for cart in carts_data:
+#         cart = cart.rstrip()
+#         if i == 1:
+#             carts[user] = Cart(user,json.loads(cart))
+#         else:
+#             user = cart
+#             i = 1
 
 def update_cart_item(user,cart_id,qty):
     return carts[user].update_cart_item(cart_id,qty)
