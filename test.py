@@ -2,6 +2,7 @@ from userTests import *
 from itemTests import *
 from cartTests import *
 
+
 def startTest(done):
     while(1):
         print("Testing Menu")
@@ -31,9 +32,11 @@ def startTest(done):
             print("Invalid option! Exiting")
             break
 
+
 def testUserModule(done):
     testUserObjectCreation(done)
     testAuthorizeUser(done)
+
 
 def testItemModule(done):
     testItemObjectCreation(done)
@@ -42,5 +45,13 @@ def testItemModule(done):
     testReturnItem(done)
     return
 
+
 def testCartModule(done):
+    testCreateCart(done)
+    testIsCartEmpty(done)
+    testUpdateCartItemQty(done)
+    testDeleteCartItem(done)
+    testBuyCart(done)
     return
+
+# testCartModule(lambda x, y: print(x, y))

@@ -31,21 +31,32 @@ def switch_main(current_user):
         print("6. Manage cart")
         print("7. Manage user")
         print("8. Manage items (Seller)")
-        print("9. Log Out")
+        if (current_user): print("9. Log Out")
         print("10. Run tests")
         print("0. Exit")
-        choice = int(input("Enter your choice (numeral) : "))
+        try:
+            choice = int(input("Enter your choice (numeral) : "))
+        except:
+            print("Invalid choice. Try again.")
+            continue
         inner_choice = None
         if choice == 1:
             if not current_user:
                 user = login()
                 while not user:
                     print("Invalid login!")
-                    inner_choice = int(input("Login again(1) or exit to main menu(0) : "))
+                    try:
+                        inner_choice = int(input("Login again(1) or exit to main menu(0) : "))
+                    except:
+                        print("Invalid choice. Try again.")
+                        continue
                     if inner_choice:
                         user = login()
                     else:
+                        user = None
                         break
+                if not user:
+                    continue
                 if not exists_cart(user):
                     new_cart(user)
                 print("Login successful!")
@@ -75,7 +86,8 @@ def switch_main(current_user):
         elif choice == 5:
             if current_user:
                 item_id = int(input("Enter id of item to add : "))
-                display_item_at_index(item_id)
+                if not display_item_at_index(item_id):
+                    continue
                 qty = int(input("Enter quantity of item to add : "))
                 if exists_cart(user):
                     cart = carts[user]
@@ -153,8 +165,8 @@ def switch_main(current_user):
             print("Exiting!")
             break
         else:
-            print("Invalid option! Exiting")
-            break
+            print("Invalid option!")
+            continue
 
 results = []
 
@@ -179,7 +191,8 @@ def switch_seller(current_user):
         elif inner_choice == 2:
             try: 
                 new_item(current_user)
-            except:
+            except ValueError as err:
+                print("Value Error: {0}".format(err))
                 print("Error above explains the problem in adding product")
         elif inner_choice == 3:
             switch_manage_product(current_user)

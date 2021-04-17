@@ -9,19 +9,19 @@ class Item:
             self.description = item_des
             self.seller = item_seller
         else:
-            print('Wrong Name or Description')
+            raise ValueError('Wrong Name or Description')
         if(item_qty >= 0):
             self.qty = item_qty
         else:
-            print('Quantity of item incorrect')
+            raise ValueError('Quantity of item incorrect')
         if(item_price >= 0.0):
             self.price = item_price
         else:
-            print('Price of item incorrect')
+            raise ValueError('Price of item incorrect')
         if(len(item_img) > 0):
             self.images = item_img
         else:
-            print('No images for product provided')
+            raise ValueError('No images for product provided')
 
     def change_quantity(self,change):
         final_qty = self.qty + change
@@ -102,7 +102,12 @@ def display_all():
         i += 1
 
 def display_item_at_index(index):
-    items[index].display_item()
+    try:
+        items[index].display_item()
+    except:
+        print("Invalid index.")
+        return False
+    return True
 
 def search_item(keyword):
     i = 0

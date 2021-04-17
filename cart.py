@@ -7,6 +7,10 @@ carts = {}
 
 class Cart:
     def __init__(self,user, items = None):
+        assert isinstance(user, str)
+        assert len(user) > 0
+        if items is not None:
+            assert isinstance(items, list)
         self.user = user
         self.items = items
     
@@ -38,16 +42,23 @@ class Cart:
         return True
 
     def update_cart_item(self, cart_id, qty):
+        if qty < 0:
+            return False
         try:
             self.items[cart_id][1] = qty
         except:
             print("Could not update! Cart ID doesn't exist")
+            return False
+        return True
 
     def delete_cart_item(self, cart_id):
         try:
             self.items[cart_id][1] = 0
+            # self.items.pop(cart_id)
         except:
             print("Could not update! Cart ID doesn't exist")
+            return False
+        return True
     
     def buy_cart(self):
         for item in self.items:
@@ -76,6 +87,9 @@ def exists_cart(user):
 def buy(user):
     if exists_cart(user) and check_address(user):
         cart = carts[user]
+        item_count = len(list(filter(lambda item: item[1] > 0, cart.items or [])))
+        if item_count == 0:
+            return False
         if cart.check_cart():
             cart.buy_cart()
             return True
@@ -125,7 +139,7 @@ def import_carts():
             i = 1
 
 def update_cart_item(user,cart_id,qty):
-    carts[user].update_cart_item(cart_id,qty)
+    return carts[user].update_cart_item(cart_id,qty)
 
 def delete_cart_item(user, cart_id):
-    carts[user].delete_cart_item(cart_id)
+    return carts[user].delete_cart_item(cart_id)
