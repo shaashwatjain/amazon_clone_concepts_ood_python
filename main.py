@@ -15,10 +15,10 @@ def initialize():
         import_items()
     except:
         print('No items in the database! Nothing to sell!')
-    try:
-        import_carts()
-    except:
-        pass
+    # try:
+    #     # import_carts()
+    # except:
+    #     pass
 
 def switch_main(current_user):
     while(1):
@@ -97,7 +97,7 @@ def switch_main(current_user):
                 if not display_item_at_index(item_id):
                     continue
                 qty = None
-                while qty is not None:
+                while qty is None:
                     try:
                         qty = int(input("Enter quantity of item to add : "))
                     except:
@@ -278,7 +278,7 @@ def switch_cart(user):
 def finalise():
     export_database()
     export_items()
-    export_carts()
+    # export_carts()
     
 if __name__ == "__main__":
     current_user = None
