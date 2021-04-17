@@ -137,6 +137,9 @@ def exists_prod(prod_id):
         return False
     return True
 
+def is_product_sold_by_user(prod_id, user):
+    return items[prod_id].seller == user
+
 def get_quantity(prod_id):
     return items[prod_id].qty
 

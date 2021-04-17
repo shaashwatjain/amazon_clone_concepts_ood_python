@@ -49,9 +49,13 @@ def check_address(user):
 
 def new_user():
     username = input("Enter your username : ")
+    if not username:
+        raise ValueError("Invalid username.")
     while username in details:
         print("Username already exists!")
         username = input("Enter your username : ")
+        if not username:
+            raise ValueError("Invalid username.")
     try:
         password = getpass.getpass()
     except Exception as error:

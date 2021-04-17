@@ -64,17 +64,21 @@ def switch_main(current_user):
             else:
                 print("Please log out first!")
         elif choice == 2:
-            try:
-                new_user()
-            except:
-                print("Invalid registration!")
-                inner_choice = int(input("Register again(1) or exit to main menu(0) : "))
-                if inner_choice:
+            while True:
+                try:
                     new_user()
+                except:
+                    print("Invalid registration!")
+                    try:
+                        inner_choice = int(input("Register again(1) or exit to main menu(0) : "))
+                    except:
+                        print("Invalid choice.")
+                        continue
+                    if not inner_choice:
+                        break
                 else:
+                    print("Successful registration! You can login now")
                     break
-            else:
-                print("Successful registration! You can login now")
         elif choice == 3:
             try:
                 display_all()
@@ -85,10 +89,20 @@ def switch_main(current_user):
             search_item(keyword)
         elif choice == 5:
             if current_user:
-                item_id = int(input("Enter id of item to add : "))
+                try:
+                    item_id = int(input("Enter id of item to add : "))
+                except:
+                    print("Invalid item id.")
+                    continue
                 if not display_item_at_index(item_id):
                     continue
-                qty = int(input("Enter quantity of item to add : "))
+                qty = None
+                while qty is not None:
+                    try:
+                        qty = int(input("Enter quantity of item to add : "))
+                    except:
+                        qty = None
+                        print("Invalid quantity. Try again.")
                 if exists_cart(user):
                     cart = carts[user]
                     cart.add_to_cart(items[item_id], qty)
@@ -108,7 +122,13 @@ def switch_main(current_user):
             if current_user:
                 print("1. Show details")
                 print("2. Edit details")
-                inner_choice = int(input("Enter choice : "))
+                inner_choice = None
+                while inner_choice is None:
+                    try:
+                        inner_choice = int(input("Enter choice : "))
+                    except:
+                        inner_choice = None
+                        print("Invalid choice. Try again.")
                 if inner_choice == 1:
                     show_details(current_user)
                 elif inner_choice == 2:
@@ -182,7 +202,11 @@ def switch_seller(current_user):
         print("2. Add new product")
         print("3. Manage product")
         print("0. Back to main menu")
-        inner_choice = int(input("Enter your choice : "))
+        try:
+            inner_choice = int(input("Enter your choice : "))
+        except:
+            print("Invalid choice. Try again.")
+            continue
         if inner_choice == 1:
             try:
                 products_by_seller(current_user)
@@ -203,12 +227,18 @@ def switch_seller(current_user):
 
 def switch_manage_product(user):
     # Add user auth
-    prod_id = int(input("Enter product id : "))
+    try:
+        prod_id = int(input("Enter product id : "))
+    except:
+        print("Invalid product id.")
+        return
     if exists_prod(prod_id):
+        if not is_product_sold_by_user(prod_id, user):
+            print("You are not the seller of this product.")
+            return
         print("#"*10)
         print("1. Update quantity")
-        print("2. Update price")
-        print("3. Delete item")
+        print("2. Delete item")
         in_choice = int(input("Enter choice : "))
         if in_choice == 1:
             old_quantity = get_quantity(prod_id)
@@ -217,12 +247,6 @@ def switch_manage_product(user):
             update_quantity = new_quantity - old_quantity
             change_quantity(prod_id, update_quantity)
         elif in_choice == 2:
-            old_price = get_price(prod_id)
-            print("Current Price : " + str(old_price))
-            new_price = int(input("Enter new price : "))
-            update_price = new_price - old_price
-            change_price(prod_id, update_price)
-        elif in_choice == 3:
             delete_item(prod_id)
     else:
         print("Product id does not exist")
@@ -231,7 +255,11 @@ def switch_cart(user):
     print("1. Update item in cart by id")
     print("2. Delete item in cart by id")
     print("3. Buy Cart")
-    in_choice = int(input("Enter choice : "))
+    try:
+        in_choice = int(input("Enter choice : "))
+    except:
+        print("Invalid choice.")
+        return
     if in_choice == 1:
         prod_id = int(input("Enter cart id to update : "))
         update_qty = int(input("Enter update quantity : "))
